@@ -1,20 +1,74 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import unittest
 import create_reply as cre
 
-if __name__ == "__main__":
-    # create reply test
-    print(cre.dictMsg("住所"))
-    print(cre.dictMsg("場所"))
-    print(cre.dictMsg("どこ"))
-    print(cre.dictMsg("食べ物"))
-    print(cre.dictMsg("おはよう"))
-    print(cre.dictMsg("こんにちわ"))
-    print(cre.dictMsg("こんにちは"))
-    print(cre.dictMsg("hoge"))
 
-    print(cre.dictMsg("どこ住所"))
-    print(cre.dictMsg("食べ物住所"))
-    print(cre.dictMsg("fdjakl;fnmeoipafeoaef"))
-    print(cre.dictMsg("hofewsanle住所ほがだれj"))
+class TestShirotan(unittest.TestCase):
+    """test class of create_reply.py
+    """
+
+    def test_dict1(self):
+        EXPECTED_REPLY = "海のなかだよーふーん"
+        test_msgs = [
+          "住所",
+          "場所",
+          "どこ",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict2(self):
+        EXPECTED_REPLY = "ぎょーざがだいすきなの おーしょーいきたいなあ"
+        test_msgs = [
+          "食べ物",
+          "たべもの",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict3(self):
+        EXPECTED_REPLY = "おはよーーしろたんだよ===="
+        test_msgs = [
+          "おはよう",
+          "おはよー",
+          "おはー",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict4(self):
+        EXPECTED_REPLY = "こんにちわ!!!ーーしろたんだよ===="
+        test_msgs = [
+          "こんにちわ",
+          "こんにちは",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict5(self):
+        EXPECTED_REPLY = "Hello!! \"Im Shirotan\" Please call me \"TARO\"! "
+        test_msgs = [
+          "Hello",
+          "hello",
+          "Hi",
+          "hi",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict6(self):
+        EXPECTED_REPLY = "あたししろたんむつかしいことはよくわからないし もちもちしたものがたべたいなあ"
+        test_msgs = [
+          "ぶっころす",
+          "しね",
+          "おまえなんてきらいだ",
+          "東京ビックサイトはどっちですか?",
+          "またねー",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+if __name__ == "__main__":
+    unittest.main()
