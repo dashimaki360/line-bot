@@ -59,8 +59,19 @@ class TestShirotan(unittest.TestCase):
             self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
 
     def test_dict6(self):
-        EXPECTED_REPLY = "あたししろたんむつかしいことはよくわからないし もちもちしたものがたべたいなあ"
+        EXPECTED_REPLY_LIST = [
+            "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
+            "ぼくしろたん",
+            "ぽかぽかだねー",
+            "おなかすいたなー",
+            "おさんぽいこーっと",
+        ]
         test_msgs = [
+          "ぶっころす",
+          "しね",
+          "おまえなんてきらいだ",
+          "東京ビックサイトはどっちですか?",
+          "またねー",
           "ぶっころす",
           "しね",
           "おまえなんてきらいだ",
@@ -68,7 +79,7 @@ class TestShirotan(unittest.TestCase):
           "またねー",
         ]
         for msg in test_msgs:
-            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+            self.assertIn(cre.dictMsg(msg), EXPECTED_REPLY_LIST)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+import random
 
 RESPONSE_DICT = {
         '住所,場所,どこ': '海のなかだよーふーん',
@@ -9,7 +10,13 @@ RESPONSE_DICT = {
         'こんにちわ,こんにちは': 'こんにちわ!!!ーーしろたんだよ====',
         'Hello,hello,hi,Hi': "Hello!! \"Im Shirotan\" Please call me \"TARO\"! "
     }
-FIX_MSG = "あたししろたんむつかしいことはよくわからないし もちもちしたものがたべたいなあ"
+FIX_REPLY_LIST = [
+    "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
+    "ぼくしろたん",
+    "ぽかぽかだねー",
+    "おなかすいたなー",
+    "おさんぽいこーっと",
+]
 
 
 def reverseMsg(msg):
@@ -25,7 +32,7 @@ def dictMsg(msg):
                 reply = RESPONSE_DICT[dictKey]
                 return reply
 
-    reply = FIX_MSG
+    reply = random.choice(FIX_REPLY_LIST)
     return reply
 
 
