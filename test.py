@@ -68,6 +68,17 @@ class TestShirotan(unittest.TestCase):
         for msg in test_msgs:
             self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
 
+    def test_dict7(self):
+        EXPECTED_REPLY = "がめんのうえのほうにかいてあるよ↑↑"
+        test_msgs = [
+          "いまなんじ",
+          "いま何時",
+          "今何時",
+          "今なんじ",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
     def test_dict_fix(self):
         EXPECTED_REPLY_LIST = [
             "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
