@@ -64,11 +64,17 @@ def callback():
             )
 
         elif isinstance(event.message, StickerMessage):
+            sticer_id = random.randint(180, 307)
+            if sticer_id < 260:
+                package_id = 3
+            else:
+                package_id = 4
+
             line_bot_api.reply_message(
                 event.reply_token,
                 StickerSendMessage(
-                    package_id=3,
-                    sticker_id=random.randint(180, 307))
+                    package_id=package_id,
+                    sticker_id=sticer_id,
             )
 
         else:
