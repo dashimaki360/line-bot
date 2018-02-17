@@ -75,6 +75,7 @@ def callback():
                 StickerSendMessage(
                     package_id=package_id,
                     sticker_id=sticer_id,
+                )
             )
 
         else:
