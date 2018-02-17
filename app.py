@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import os
 import sys
+import random
 
 import create_reply
 
@@ -15,6 +16,7 @@ from linebot.exceptions import (
 )
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
+    StickerMessage, StickerSendMessage,
 )
 
 app = Flask(__name__)
@@ -51,17 +53,26 @@ def callback():
     for event in events:
         if not isinstance(event, MessageEvent):
             continue
-        if not isinstance(event.message, TextMessage):
+
+        if isinstance(event.message, TextMessage):
+            msg = event.message.text
+            reply = create_reply.createReply(msg)
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=reply)
+            )
+
+        elif isinstance(event.message, StickerMessage):
+            line_bot_api.reply_message(
+                event.reply_token,
+                StickerSendMessage(
+                    package_id=3,
+                    sticker_id=random.randint(180, 307))
+            )
+
+        else:
             continue
-
-        msg = event.message.text
-        reply = create_reply.createReply(msg)
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=reply)
-        )
-
     return 'OK'
 
 
