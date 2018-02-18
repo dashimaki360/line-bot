@@ -88,12 +88,16 @@ def callback():
     return 'OK'
 
 
-def addToSql(event):
+def addToSql(event, sticker=False):
     # add message data to sql
+    if sticker:
+        msg = "stamp {} {}".format(event.message.package_id, event.message.sticker_id)
+    else:
+        msg = event.message.text,
     add_data = usermessage(
             id=event.message.id,
             user_id=event.source.user_id,
-            message=event.message.text,
+            message=msg,
             timestamp=datetime.fromtimestamp(int(event.timestamp)/1000)
         )
     try:
@@ -118,6 +122,7 @@ def message_text(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def message_sticker(event):
+    addToSql(event, sticer=True)
     sticer_id = random.randint(180, 307)
     if sticer_id < 260:
         package_id = 3
