@@ -127,6 +127,11 @@ def message_sticker(event):
     )
 
 
+@app.before_first_request
+def init():
+    db.create_all()
+
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
