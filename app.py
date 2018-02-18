@@ -92,7 +92,7 @@ def addToSql(event):
     # add message data to sql
     add_data = usermessage(
             id=event.message.id,
-            user_id=event.source.userId,
+            user_id=event.source.user_id,
             message=event.message.text,
             timestamp=event.timestamp,
         )
