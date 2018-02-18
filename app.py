@@ -48,16 +48,19 @@ class usermessage(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     user_id = db.Column(db.String(50))
     message = db.Column(db.Text)
+    reply_message = db.Column(db.Text)
     timestamp = db.Column(db.TIMESTAMP)
 
     def __init__(self,
                  id,
                  user_id,
                  message,
+                 reply_message,
                  timestamp,):
         self.id = id
         self.user_id = user_id
         self.message = message
+        self.reply_message = reply_message
         self.timestamp = timestamp
 
     def to_dict(self):
@@ -65,6 +68,7 @@ class usermessage(db.Model):
             id=self.id,
             user_id=self.user_id,
             message=self.message,
+            reply_message=self.reply_message,
             timestamp=self.timestamp,
         )
 
@@ -88,7 +92,7 @@ def callback():
     return 'OK'
 
 
-def addToSql(event, sticker=False):
+def addToSql(event, reply, sticker=False):
     # add message data to sql
     if sticker:
         msg = "stamp {} {}".format(event.message.package_id, event.message.sticker_id)
@@ -98,6 +102,7 @@ def addToSql(event, sticker=False):
             id=event.message.id,
             user_id=event.source.user_id,
             message=msg,
+            reply_message=reply,
             timestamp=datetime.fromtimestamp(int(event.timestamp)/1000)
         )
     try:
@@ -110,9 +115,10 @@ def addToSql(event, sticker=False):
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    addToSql(event)
     msg = event.message.text
     reply = create_reply.createReply(msg)
+
+    addToSql(event, reply)
 
     line_bot_api.reply_message(
         event.reply_token,
@@ -122,18 +128,20 @@ def message_text(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def message_sticker(event):
-    addToSql(event, sticker=True)
-    sticer_id = random.randint(180, 307)
-    if sticer_id < 260:
+    sticker_id = random.randint(180, 307)
+    if sticker_id < 260:
         package_id = 3
     else:
         package_id = 4
+    reply = "stamp {} {}".format(package_id, sticker_id)
+
+    addToSql(event, reply, sticker=True)
 
     line_bot_api.reply_message(
         event.reply_token,
         StickerSendMessage(
             package_id=package_id,
-            sticker_id=sticer_id,
+            sticker_id=sticker_id,
         )
     )
 
