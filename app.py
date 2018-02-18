@@ -5,7 +5,6 @@ import os
 import sys
 import random
 from datetime import datetime
-import json
 
 import create_reply
 
@@ -78,6 +77,7 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
+    print("Request body: " + body)
 
     # handle webhook body
     try:
@@ -96,8 +96,11 @@ def addToSql(event):
             message=event.message.text,
             timestamp=datetime.fromtimestamp(int(event.timestamp)/1000)
         )
-    db.session.add(add_data)
-    db.session.commit()
+    try:
+        db.session.add(add_data)
+        db.session.commit()
+    except (SQLAlchemy.exc.SQLAlchemyError, SQLAlchemy.exc.DBAPIError) as e:
+        print(e)
 
 
 @handler.add(MessageEvent, message=TextMessage)
