@@ -122,7 +122,7 @@ def message_text(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def message_sticker(event):
-    addToSql(event, sticer=True)
+    addToSql(event, sticker=True)
     sticer_id = random.randint(180, 307)
     if sticer_id < 260:
         package_id = 3
@@ -140,7 +140,6 @@ def message_sticker(event):
 
 @app.before_first_request
 def init():
-    db.drop_all()
     db.create_all()
 
 
