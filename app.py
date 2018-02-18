@@ -77,18 +77,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    bodyjson = json.loads(body)
     app.logger.info("Request body: " + body)
-
-    # add message data to sql
-    add_data = usermessage(
-            id=bodyjson['events'][0]['message']['id'],
-            user_id=bodyjson['events'][0]['source']['userId'],
-            message=bodyjson['events'][0]['message']['text'],
-            timestamp=datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
-        )
-    db.session.add(add_data)
-    db.session.commit()
 
     # handle webhook body
     try:
@@ -99,8 +88,21 @@ def callback():
     return 'OK'
 
 
+def addToSql(event):
+    # add message data to sql
+    add_data = usermessage(
+            id=event.message.id,
+            user_id=event.source.userId,
+            message=event.message.text,
+            timestamp=event.timestamp,
+        )
+    db.session.add(add_data)
+    db.session.commit()
+
+
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
+    addToSql(event)
     msg = event.message.text
     reply = create_reply.createReply(msg)
 
