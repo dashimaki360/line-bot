@@ -49,7 +49,7 @@ class usermessage(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     user_id = db.Column(db.String(50))
     message = db.Column(db.Text)
-    birth_date = db.Column(db.TIMESTAMP)
+    timestamp = db.Column(db.TIMESTAMP)
 
     def __init__(self,
                  id,
@@ -131,6 +131,7 @@ def message_sticker(event):
 
 @app.before_first_request
 def init():
+    db.drop_all()
     db.create_all()
 
 
