@@ -4,10 +4,14 @@ from __future__ import unicode_literals
 import os
 import sys
 import random
+from datetime import datetime
+import json
 
 import create_reply
 
 from flask import Flask, request, abort
+from flask_sqlalchemy import SQLAlchemy
+
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -18,6 +22,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     StickerMessage, StickerSendMessage,
 )
+
 
 app = Flask(__name__)
 
@@ -34,6 +39,36 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', None)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app)
+
+
+class Usermessage(db.Model):
+    __tablename__ = 'usermessage'
+    id = db.Column(db.String(50), primary_key=True)
+    user_id = db.Column(db.String(50))
+    message = db.Column(db.Text)
+    birth_date = db.Column(db.TIMESTAMP)
+
+    def __init__(self,
+                 id,
+                 user_id,
+                 message,
+                 timestamp,):
+        self.id = id
+        self.user_id = user_id
+        self.message = message
+        self.timestamp = timestamp
+
+    def to_dict(self):
+        return dict(
+            id=self.id,
+            user_id=self.user_id,
+            message=self.message,
+            timestamp=self.timestamp,
+        )
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -42,7 +77,18 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
+    bodyjson = json.loads(body)
     app.logger.info("Request body: " + body)
+
+    # add message data to sql
+    add_data = Usermessage(
+            id=bodyjson['events'][0]['message']['id'],
+            user_id=bodyjson['events'][0]['source']['userId'],
+            message=bodyjson['events'][0]['message']['text'],
+            timestamp=datetime.fromtimestamp(int(bodyjson['events'][0]['timestamp'])/1000)
+        )
+    db.session.add(add_data)
+    db.session.commit()
 
     # handle webhook body
     try:
