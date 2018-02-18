@@ -94,7 +94,7 @@ def addToSql(event):
             id=event.message.id,
             user_id=event.source.user_id,
             message=event.message.text,
-            timestamp=event.timestamp,
+            timestamp=datetime.fromtimestamp(int(event.timestamp)/1000)
         )
     db.session.add(add_data)
     db.session.commit()
