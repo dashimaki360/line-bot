@@ -44,7 +44,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
-class Usermessage(db.Model):
+class usermessage(db.Model):
     __tablename__ = 'usermessage'
     id = db.Column(db.String(50), primary_key=True)
     user_id = db.Column(db.String(50))
@@ -81,7 +81,7 @@ def callback():
     app.logger.info("Request body: " + body)
 
     # add message data to sql
-    add_data = Usermessage(
+    add_data = usermessage(
             id=bodyjson['events'][0]['message']['id'],
             user_id=bodyjson['events'][0]['source']['userId'],
             message=bodyjson['events'][0]['message']['text'],
