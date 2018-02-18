@@ -100,6 +100,7 @@ def addToSql(event):
         db.session.add(add_data)
         db.session.commit()
     except (SQLAlchemy.exc.SQLAlchemyError, SQLAlchemy.exc.DBAPIError) as e:
+        print("sql error happen")
         print(e)
 
 
