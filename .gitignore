@@ -4,6 +4,8 @@ __pycache__
 *.pyc
 *.swp
 *~
+*.ipynb
+temp.jpg
 =======
 # Byte-compiled / optimized / DLL files
 __pycache__/
