@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 import cv2
 import boto3
 
-AWS_ACCESS_KEY_ID = 'AKIAJ3RBHMOEZLRNJJXA'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_REGION_NAME = 'ap-northeast-1'
-AWS_S3_BUCKET_NAME = 'shirotanlinebot'
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', None)
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', None)
+AWS_REGION_NAME = os.getenv('AWS_REGION_NAME', None)
+AWS_S3_BUCKET_NAME = os.getenv('AWS_S3_BUCKET_NAME', None)
 
 # s3 enviroment setting
 session = boto3.session.Session(aws_access_key_id=AWS_ACCESS_KEY_ID,
