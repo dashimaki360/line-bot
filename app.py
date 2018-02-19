@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 import create_reply
-import image_reply
+#import image_reply
 
 from flask import Flask, request, abort
 from flask_sqlalchemy import SQLAlchemy
@@ -157,7 +157,6 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    '''
     reply = "がぞうはまだよくみえないからもうちょっとまってね"
 
     addToSql(event, reply, image=True)
@@ -180,6 +179,7 @@ def message_image(event):
             preview_image_url=prev_url,
         )
     )
+    '''
 
 
 if __name__ == "__main__":

@@ -16,6 +16,7 @@ s3 = session.resource('s3')
 bucket = s3.Bucket(AWS_S3_BUCKET_NAME)
 s3_url = "https://s3-{}.amazonaws.com/{}/".format(AWS_REGION_NAME, AWS_S3_BUCKET_NAME)
 
+# face mask app setting
 CASCADE_PATH = "haarcascade_frontalface_default.xml"
 mask = cv2.imread("sampleimage/shirotan.jpg")
 
