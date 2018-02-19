@@ -157,6 +157,7 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
+    '''
     reply = "がぞうはまだよくみえないからもうちょっとまってね"
 
     addToSql(event, reply, image=True)
@@ -167,7 +168,11 @@ def message_image(event):
     )
     '''
     message_content = line_bot_api.get_message_content(event.message.id)
-    org_url, prev_url = imgage_reply.CreateReply(img)
+    with open('temp.jpg', 'wb') as img_f:
+        for chunk in message_content.iter_content():
+            img_f.write(chunk)
+
+    org_url, prev_url = image_reply.CreateReply("temp.jpg", event.message.id)
     line_bot_api.reply_message(
         event.reply_token,
         ImageSendMessage(
@@ -175,7 +180,6 @@ def message_image(event):
             preview_image_url=prev_url,
         )
     )
-    '''
 
 
 if __name__ == "__main__":
