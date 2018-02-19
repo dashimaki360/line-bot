@@ -2,7 +2,6 @@ build:
   languages:
     - python
   packages:
-    - libsm6
     - libopencv-dev
 run:
   web: python app.py
