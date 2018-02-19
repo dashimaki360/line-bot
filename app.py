@@ -7,6 +7,7 @@ import random
 from datetime import datetime
 
 import create_reply
+import image_reply
 
 from flask import Flask, request, abort
 from flask_sqlalchemy import SQLAlchemy
@@ -20,6 +21,7 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     StickerMessage, StickerSendMessage,
+    ImageMessage, ImageSendMessage,
 )
 
 
@@ -95,12 +97,14 @@ def callback():
     return 'OK'
 
 
-def addToSql(event, reply, sticker=False):
+def addToSql(event, reply, sticker=False, image=False):
     '''
     add message data to sql
     '''
     if sticker:
         msg = "stamp {} {}".format(event.message.package_id, event.message.sticker_id)
+    elif image:
+        msg = "IMAGE_MESSAGE"
     else:
         msg = event.message.text,
     add_data = usermessage(
@@ -149,6 +153,29 @@ def message_sticker(event):
             sticker_id=sticker_id,
         )
     )
+
+
+@handler.add(MessageEvent, message=ImageMessage)
+def message_image(event):
+    reply = "がぞうはまだよくみえないからもうちょっとまってね"
+
+    addToSql(event, reply, image=True)
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=reply)
+    )
+    '''
+    message_content = line_bot_api.get_message_content(event.message.id)
+    org_url, prev_url = imgage_reply.CreateReply(img)
+    line_bot_api.reply_message(
+        event.reply_token,
+        ImageSendMessage(
+            original_content_url=org_url,
+            preview_image_url=prev_url,
+        )
+    )
+    '''
 
 
 if __name__ == "__main__":
