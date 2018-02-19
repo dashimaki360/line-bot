@@ -164,9 +164,12 @@ def message_image(event):
 
     line_bot_api.reply_message(
         event.reply_token,
-        ImageSendMessage(
-            original_content_url=org_url,
-            preview_image_url=prev_url,
+        (
+            TextSendMessage(text="がぞうはまだうまくよめないからこれでがまんしてね"),
+            ImageSendMessage(
+                original_content_url=org_url,
+                preview_image_url=prev_url,
+            )
         )
     )
     '''
