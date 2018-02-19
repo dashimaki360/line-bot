@@ -90,6 +90,59 @@ class TestShirotan(unittest.TestCase):
         for msg in test_msgs:
             self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
 
+    def test_dict9(self):
+        EXPECTED_REPLY = "くちがわるいなぁ\nこれだからカンサイジンは"
+        test_msgs = [
+          "ぶっ殺す",
+          "ぶっころ",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict10(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式ぎゅうどんははよしのやだよー\nでもほんとーにすきなのはまつや☆"
+        test_msgs = [
+          "牛丼",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict11(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式どーなつはミスドだよー☆"
+        test_msgs = [
+          "ドーナッツ",
+          "ドーナツ",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict12(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式どりんくはスタバだよー☆"
+        test_msgs = [
+          "飲み物",
+          "ドリンク",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict13(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式ぎょうざは・・・\nあー、おーしょーとみんみんでまようなー"
+        test_msgs = [
+          "餃子",
+          "ぎょうざ",
+          "ギョウザ",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
+    def test_dict14(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式しゅーくりーむはビアードパパだよー☆"
+        test_msgs = [
+          "シュークリーム",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
     def test_dict_fix(self):
         EXPECTED_REPLY_LIST = [
             "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
@@ -99,22 +152,18 @@ class TestShirotan(unittest.TestCase):
             "おさんぽいこーっと",
         ]
         test_msgs = [
-          "ぶっころす",
           "しね",
           "おまえなんてきらいだ",
           "東京ビックサイトはどっちですか?",
           "またねー",
-          "ぶっころす",
           "しね",
           "おまえなんてきらいだ",
           "東京ビックサイトはどっちですか?",
           "またねー",
-          "ぶっころす",
           "しね",
           "おまえなんてきらいだ",
           "東京ビックサイトはどっちですか?",
           "またねー",
-          "ぶっころす",
           "しね",
           "おまえなんてきらいだ",
           "東京ビックサイトはどっちですか?",
