@@ -157,13 +157,17 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    reply = "がぞうはまだよくみえないからもうちょっとまってね"
-
+    org_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/123456789_org.jpg"
+    prev_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/123456789_prev.jpg"
+    reply = org_url
     addToSql(event, reply, image=True)
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=reply)
+        ImageSendMessage(
+            original_content_url=org_url,
+            preview_image_url=prev_url,
+        )
     )
     '''
     message_content = line_bot_api.get_message_content(event.message.id)
