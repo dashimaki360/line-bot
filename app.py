@@ -25,7 +25,7 @@ from linebot.models import (
 
 app = Flask(__name__)
 
-# get channel_secret and channel_access_token from your environment variable
+# LINE BOT setting
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 if channel_secret is None:
@@ -34,16 +34,19 @@ if channel_secret is None:
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
     sys.exit(1)
-
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+# heroku postgresql setting
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', None)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
 class usermessage(db.Model):
+    '''
+    user message and reply db
+    '''
     __tablename__ = 'usermessage'
     id = db.Column(db.String(50), primary_key=True)
     user_id = db.Column(db.String(50))
@@ -93,7 +96,9 @@ def callback():
 
 
 def addToSql(event, reply, sticker=False):
-    # add message data to sql
+    '''
+    add message data to sql
+    '''
     if sticker:
         msg = "stamp {} {}".format(event.message.package_id, event.message.sticker_id)
     else:
