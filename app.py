@@ -127,12 +127,20 @@ def message_text(event):
     msg = event.message.text
     reply = create_reply.createReply(msg)
 
-    addToSql(event, reply)
+    if isinstance(reply, list):
+        text_msgs = []
+        for rep in reply:
+            text_msgs.append(TextSendMessage(text=rep))
+        rec_msg = ','.join(reply)
+    else:
+        text_msgs = TextSendMessage(text=reply)
+        rec_msg = reply
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=reply)
+        text_msgs
     )
+    addToSql(event, rec_msg)
 
 
 @handler.add(MessageEvent, message=StickerMessage)

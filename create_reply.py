@@ -38,6 +38,16 @@ RESPONSE_DICT = {
         "ねるね": "おやすみーーねむーーねむーーー",
         "寝る": "おやすみーーねむーーねむーーー",
         "オヤスミ": "おやすみーーねむーーねむーーー",
+        "今日なにたべよ": ["しろたんるーれっと",
+                        "すたーと!!",
+                        "じゃんがじゃんがじゃんが",
+                        ["おうしょう", "なかう", "かつや", "よしのや", "おひつごはん",
+                         "まつや", "イオンフードコート", "パスタ", "ココイチ", "くらずし",
+                         "てんいち", "おおさかおうしょう", "ロイヤルホスト", "サイゼ", "ココス",
+                         "やるき"
+                        ],
+                        "きみにきめた!"
+        ]
     }
 FIX_REPLY_LIST = [
     "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
@@ -47,17 +57,26 @@ FIX_REPLY_LIST = [
     "おさんぽいこーっと",
 ]
 
-'''
-def reverseMsg(msg):
-    gsm = msg[::-1]
-    return gsm
-'''
+
+def detectMsg(msgs):
+    if isinstance(msgs, list):
+        det_msgs = []
+        for msg in msgs:
+            if isinstance(msg, list):
+                msg = random.choice(msg)
+            det_msgs.append(msg)
+        reply = det_msgs
+    else:
+        reply = msgs
+    return reply
 
 
 def dictMsg(msg):
     for dictKey in RESPONSE_DICT.keys():
         if dictKey.lower() in msg.lower():
-            reply = RESPONSE_DICT[dictKey]
+            value = RESPONSE_DICT[dictKey]
+            # check value is list or nor and rand choice
+            reply = detectMsg(value)
             return reply
 
     reply = random.choice(FIX_REPLY_LIST)

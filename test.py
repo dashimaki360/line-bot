@@ -143,6 +143,26 @@ class TestShirotan(unittest.TestCase):
         for msg in test_msgs:
             self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
 
+    def test_dict15(self):
+        EXPECTED_REPLY = ["しろたんるーれっと",
+                        "すたーと!!",
+                        "じゃんがじゃんがじゃんが",
+                        ["おうしょう", "なかう", "かつや", "よしのや", "おひつごはん",
+                         "まつや", "イオンフードコート", "パスタ", "ココイチ", "くらずし",
+                         "てんいち", "おおさかおうしょう", "ロイヤルホスト", "サイゼ", "ココス",
+                         "やるき"
+                        ],
+                        "きみにきめた!"]
+        test_msgs = [
+            "今日なにたべよ"
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY[0], cre.dictMsg(msg)[0])
+            self.assertEqual(EXPECTED_REPLY[1], cre.dictMsg(msg)[1])
+            self.assertEqual(EXPECTED_REPLY[2], cre.dictMsg(msg)[2])
+            self.assertIn(cre.dictMsg(msg)[3], EXPECTED_REPLY[3])
+            self.assertEqual(EXPECTED_REPLY[4], cre.dictMsg(msg)[4])
+
     def test_dict_fix(self):
         EXPECTED_REPLY_LIST = [
             "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
