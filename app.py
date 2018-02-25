@@ -165,8 +165,8 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    org_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/123456789_org.jpg"
-    prev_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/123456789_prev.jpg"
+    org_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/sample_org.jpg"
+    prev_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/sample_prev.jpg"
     reply = org_url
     addToSql(event, reply, image=True)
 
