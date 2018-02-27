@@ -162,6 +162,14 @@ class TestShirotan(unittest.TestCase):
             self.assertIn(cre.dictMsg(msg)[3], EXPECTED_REPLY[3])
             self.assertEqual(EXPECTED_REPLY[4], cre.dictMsg(msg)[4])
 
+    def test_dict16(self):
+        EXPECTED_REPLY = "ちーむしろたんの公式プレゼントはハンドタオルだよー☆ふわふわなやつがおすすめだよー☆"
+        test_msgs = [
+          "プレゼントはなにがいいかなー？",
+        ]
+        for msg in test_msgs:
+            self.assertEqual(EXPECTED_REPLY, cre.dictMsg(msg))
+
     def test_dict_fix(self):
         EXPECTED_REPLY_LIST = [
             "ぼくしろたんむつかしいことはよくわからないし\nもちもちしたものがたべたいなあ",
