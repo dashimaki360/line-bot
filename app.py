@@ -165,36 +165,14 @@ def message_sticker(event):
 
 @handler.add(MessageEvent, message=ImageMessage)
 def message_image(event):
-    org_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/sample_org.jpg"
-    prev_url = "https://s3-ap-northeast-1.amazonaws.com/shirotanlinebot/images/sample_prev.jpg"
-    reply = org_url
-    addToSql(event, reply, image=True)
-
+    reply = "これはどこのしゃしん?"
+    text_msgs = TextSendMessage(text=reply)
+    rec_msg = reply
     line_bot_api.reply_message(
         event.reply_token,
-        (
-            TextSendMessage(text="がぞうはまだうまくよめないからこれでがまんしてね"),
-            ImageSendMessage(
-                original_content_url=org_url,
-                preview_image_url=prev_url,
-            )
-        )
+        text_msgs
     )
-    '''
-    message_content = line_bot_api.get_message_content(event.message.id)
-    with open('temp.jpg', 'wb') as img_f:
-        for chunk in message_content.iter_content():
-            img_f.write(chunk)
-
-    org_url, prev_url = image_reply.CreateReply("temp.jpg", event.message.id)
-    line_bot_api.reply_message(
-        event.reply_token,
-        ImageSendMessage(
-            original_content_url=org_url,
-            preview_image_url=prev_url,
-        )
-    )
-    '''
+    addToSql(event, rec_msg, image=True)
 
 
 if __name__ == "__main__":
